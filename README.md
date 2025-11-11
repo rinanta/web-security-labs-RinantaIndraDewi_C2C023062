@@ -1,6 +1,6 @@
 # web-security-labs-RinantaIndraDewi_C2C023062
 # 1. SQL INJECTION
-Versi VULNERABLE (Rentan)
+**Versi VULNERABLE (Rentan)**
 $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
 $result = mysqli_query($conn, $query);
 Karakteristik:
@@ -11,6 +11,7 @@ Karakter khusus (', --, OR) tidak di-filter
 Contoh Eksploitasi:
 Username: admin' OR '1'='1
 Password: ' OR '1'='1
+
 **Versi SAFE (Aman)**
 Kode:$stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
 $stmt->execute([$username, $password]);
@@ -21,7 +22,7 @@ Password di-hash dengan password_hash() (bcrypt/argon2)
 Escape otomatis untuk karakter khusus
 
 # 2. CROSS-SITE SCRIPTING (XSS)
-Versi VULNERABLE (Rentan)
+**Versi VULNERABLE (Rentan)**
 Kode: // Simpan komentar
 $stmt->execute([$username, $comment]);
 // Tampilkan langsung tanpa encoding
@@ -30,6 +31,7 @@ Karakteristik:
 Output ditampilkan langsung ke HTML
 Tidak ada encoding karakter khusus
 Script berbahaya dieksekusi di browser
+
 **Save**
 Output di-encode dengan htmlspecialchars()
 Konversi karakter khusus ke HTML entities
@@ -41,7 +43,7 @@ Tampil sebagai: &lt;script&gt;alert('XSS')&lt;/script&gt;
 Browser menampilkan sebagai teks biasa
 
 # 3. FILE UPLOAD VULNERABILITY
-Versi VULNERABLE (Rentan)
+**Versi VULNERABLE (Rentan)**
 Karakteristik:
 Tidak ada validasi ekstensi file
 Nama file asli digunakan langsung
@@ -56,7 +58,6 @@ Penyerang kontrol penuh atas server
 
 **Versi SAFE (Aman)**
 Karakteristik:
-
 Whitelist validation - hanya ekstensi tertentu
 File size limit - maksimal 5MB
 MIME type check - validasi tipe file
@@ -71,9 +72,8 @@ File tidak tersimpan
 Tidak ada RCE
 
 # 4. BROKEN ACCESS CONTROL (IDOR)
- Versi VULNERABLE (Rentan)
+ **Versi VULNERABLE (Rentan)**
  Karakteristik:
-
 Tidak ada pengecekan kepemilikan (ownership)
 ID dari URL langsung digunakan
 Tidak ada validasi session vs requested ID
@@ -84,9 +84,8 @@ Data user lain BISA DIAKSES
 Tampil: Nama, Email, Nilai, Program Studi
 Horizontal Privilege Escalation berhasil
 
-**ersi SAFE (Aman)**
+**Versi SAFE (Aman)**
 Karakteristik:
-
 Server-side authorization check
 Validasi: requested_id == session_user_id
 Double validation (PHP + SQL level)
